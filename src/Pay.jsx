@@ -1,7 +1,17 @@
 import React from "react";
 import StripeCheckout from "react-stripe-checkout";
 
+const KEY = "pk_test_very long code";
+
 const Pay = () => {
+  const onToken = (token) => {
+    console.log(token);
+  };
+
+  //
+  //
+  //
+  //
   return (
     <div
       style={{
@@ -15,9 +25,23 @@ const Pay = () => {
       
               STRIPE BUTTON 
       
-      
+       amount={1000} the 2 last ceros are cents
+
+         token={this.onToken}
+         this above is linked to the function we 
+         are going to create
       */}
-      <StripeCheckout>
+
+      <StripeCheckout
+        name="NOVE shop"
+        image="https://avatars.githubusercontent.com/u/1486366?v=4"
+        shippingAddress
+        billingAddress
+        description="Your total is 20 euros"
+        amount={1000}
+        token={onToken}
+        stripeKey={KEY}
+      >
         <button
           style={{
             border: "none",

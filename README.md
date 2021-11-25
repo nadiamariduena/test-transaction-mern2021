@@ -220,6 +220,11 @@ export default Pay;
 
 <br>
 
+- our **company name:** name="Three Comma Co."
+- if you notice, everything is inside the button.
+
+<br>
+
 ```javascript
 <StripeCheckout
   name="Three Comma Co." // the pop-in header title
@@ -258,3 +263,132 @@ export default Pay;
   </button>
 </StripeCheckout>
 ```
+
+<br>
+
+#### 🔴
+
+#### Important properties from the above code:
+
+```javascript
+        token={this.onToken}// submit callback
+        stripeKey="..."
+```
+
+##### Since its sensitive data, we will have to create a function to handle it
+
+## Lets grab the properties from stripe and add it to the button
+
+```javascript
+<StripeCheckout
+  name="NOVE shop"
+  image="https://avatars.githubusercontent.com/u/1486366?v=4"
+  shippingAddress
+  billingAddress
+  description="Your total is 20 euros"
+  amount={1000}
+  token={this.onToken}
+  stripeKey="..."
+>
+  <button
+    style={{
+      border: "none",
+      width: "120",
+      borderRadius: "5",
+      padding: "20px",
+      backgroundColor: "black",
+      color: "white",
+      fontWeight: "500",
+      cursor: "pointer",
+    }}
+  >
+    PAY NOW
+  </button>
+</StripeCheckout>
+```
+
+<br>
+
+<br>
+
+### For the code below we will need the 'pk' public key from STRIPE
+
+```javascript
+stripeKey = "...";
+```
+
+<br>
+
+🔴 **remember:**
+
+- You have to be in test mode to grab the keys otherwise it will grab the key for real payments
+
+<br>
+
+- Grab the **pk** key, as we already took the **sk** key to use in our main backend project.
+
+<br>
+
+- Add the **pk** key to the **.env**, then take the variable and add it to the button: **stripeKey={process.env.KEY}**
+
+- change this line **token={this.onToken}** for this: **token={onToken}**
+
+<br>
+
+```javascript
+      <StripeCheckout
+        name="NOVE shop"
+        image="https://avatars.githubusercontent.com/u/1486366?v=4"
+        shippingAddress
+        billingAddress
+        description="Your total is 20 euros"
+        amount={1000}
+        token={onToken}
+        stripeKey={process.env.KEY} // ***   HERE  ***
+      >
+        <button
+```
+
+<br>
+
+#### Now add the function related to the code below
+
+```javascript
+token = { onToken };
+```
+
+#### the function
+
+```javascript
+const Pay = () => {
+  const onToken = (token) => {
+    console.log(token);
+  };
+```
+
+#### Test it in the browser
+
+```javascript
+npm start
+```
+
+- change the url:
+
+```javascript
+http://localhost:3000/pay
+```
+
+<br>
+
+#### Result
+
+- the error makes allusion to the prop, remember that we removed it, this is how it was before: **token={this.onToken}**
+
+```javascript
+Warning: Failed prop type: The prop `stripeKey` is marked as required in `ReactStripeCheckout`, but its value is `undefined`.
+
+```
+
+> **Failed** because of the way i set the **KEY** inside the .env
+
+> **SUCCESS** after i added the key inside the Pay.jsx (you shouldnt do that | only for testing purposes | never push to git when they key is visible like that)
