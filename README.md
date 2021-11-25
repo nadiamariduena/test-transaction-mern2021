@@ -362,11 +362,11 @@ token = { onToken };
 ```javascript
 const Pay = () => {
   const onToken = (token) => {
-    console.log(token);
+    console.log(token); //it will show us the fake order inside the browser console
   };
 ```
 
-#### Test it in the browser
+#### Test it in the browser ✋
 
 ```javascript
 npm start
@@ -376,6 +376,7 @@ npm start
 
 ```javascript
 http://localhost:3000/pay
+// After ýou click in the button it will open in the browser, but if you click it again, it will open in another window, you can just refresh the page to prevent that when testing again.
 ```
 
 <br>
@@ -391,4 +392,94 @@ Warning: Failed prop type: The prop `stripeKey` is marked as required in `ReactS
 
 > **Failed** because of the way i set the **KEY** inside the .env
 
-> **SUCCESS** after i added the key inside the Pay.jsx (you shouldnt do that | only for testing purposes | never push to git when they key is visible like that)
+[<img src="./src/img/test_failed_because_key.gif"/>]()
+
+<br>
+
+# 🐒
+
+> **SUCCESS** after i added the key inside the Pay.jsx (you shouldnt do that | only for testing purposes | never push to git when they key is visible like that), it worked!!
+
+[<img src="./src/img/test_successful_because_key.gif"/>]()
+
+<br>
+
+##### this is the fake order
+
+```javascript
+Object
+card: {id: 'card_1JzfK5OCdM1Odk10RJpF27O63r', object: 'card', address_city: 'Berlin', address_country: 'Germany', address_line1: 'nanana', …}
+client_ip: "52.129.28.192"
+created: 1637836640
+email: "nnnnn@mail.com"
+id: "tok_1JzfK2OCdM1Odlk0RJcxiVw5Bg"
+livemode: false
+object: "token"
+type: "card"
+used: false
+[[Prototype]]: Object
+```
+
+<br>
+
+---
+
+<br>
+
+### Before we progress more, lets see what we have:
+
+```javascript
+import React from "react";
+import StripeCheckout from "react-stripe-checkout";
+
+const KEY = "pk_test_very long code";
+
+const Pay = () => {
+  const onToken = (token) => {
+    console.log(token);
+  };
+
+  //
+  //
+  //
+  //
+  return (
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <StripeCheckout
+        name="NOVE shop"
+        image="https://avatars.githubusercontent.com/u/1486366?v=4"
+        shippingAddress
+        billingAddress
+        description="Your total is 20 euros"
+        amount={1000}
+        token={onToken}
+        stripeKey={KEY}
+      >
+        <button
+          style={{
+            border: "none",
+            width: "120",
+            borderRadius: "5",
+            padding: "20px",
+            backgroundColor: "black",
+            color: "white",
+            fontWeight: "500",
+            cursor: "pointer",
+          }}
+        >
+          PAY NOW
+        </button>
+      </StripeCheckout>
+    </div>
+  );
+};
+
+export default Pay;
+```
