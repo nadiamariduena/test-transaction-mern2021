@@ -919,13 +919,13 @@ sudo lsof -i -P -n | grep LISTEN
 ##### result
 
 ```javascript
-node      15549       home   23u  IPv6 209019      0t0  TCP *:4000 (LISTEN)
-node      15633       home   23u  IPv4 202350      0t0  TCP *:3000 (LISTEN)
+node      14546       home   23u  IPv6 209019      0t0  TCP *:4000 (LISTEN)
+node      13632       home   23u  IPv4 202350      0t0  TCP *:3000 (LISTEN)
 ```
 
 <br>
 
-- Here you can really see that they not match
+- Here you can really see that they dont match
 
 <br>
 <br>
@@ -1014,11 +1014,13 @@ Would you like to run the app on another port instead? › (Y/n)
 
 So i had to copy the index.js(server node, from the good one) and paste it inside the failed one, and **it worked**. 🌈
 
+<br>
+
 [<img src="./src/img/succesful.gif"/>]()
 
 <br>
 
-### the problem now was the organization inside the index.js (server side)
+### the problem now is the organization inside the index.js (server side)
 
 <br>
 <br>
