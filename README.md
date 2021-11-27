@@ -1,4 +1,11 @@
+## SUCCESSFULLY LINKING SERVER AND CLIENT
+
+<br>
+<br>
+
 ## STRIPE TEST
+
+> I had some issues related to the server(read at the end of this file) but it was solved.
 
 <br>
 <br>
@@ -715,11 +722,11 @@ xhr.js:210 POST http://localhost:3000/api/checkout/payment 404 (Not Found)
 
 <br>
 
-### Apparently it has to do with Cors
+### I seems it has to do with Cors
 
-- so i added it like so:
+- So i added Cors in the same way the teacher did in the video
 
-> Inside the main project
+> I Proceed to add CORS inside the main project (**server side**) where all the node backendsetup is
 
 <br>
 
@@ -781,20 +788,477 @@ app.listen(process.env.PORT || 3000, () => {
 //
 ```
 
-### but it didnt work, apparently because:
+<br>
 
-- You're getting a 404 because your axios call is going to your web app, not port 5000. You need to be more explicit in your axios url like this:
+### But it didn't work, apparently because:
 
-https://stackoverflow.com/questions/67090482/errorrequest-failed-with-status-code-404-at-createerror-createerror-js16-at
+#### 🔴
+
+- You're getting a **404 because your axios call is going to your web app, not port 5000.** You need to be more explicit in your axios url like this:
+
+##### [READ MORE](https://stackoverflow.com/questions/67090482/errorrequest-failed-with-status-code-404-at-createerror-createerror-js16-at)
+
+> **CORS** considers the port as part of the origin, so **localhost:5000 and localhost:8080** are considered different origins here.
 
 <br>
 
-CORS considers the port as part of the origin, so localhost:5000 and localhost:8080 are considered different origins here.
+You might want to consider something like this which will allow you to use the same origin/domain for both the frontend code and the API during development:
 
-You might want to consider something like this which will allow you to use the same origin/domain for both the frontend code and the API during development: https://vuejs-templates.github.io/webpack/proxy.html
+- Gave me some ideas but it wasnt enough
+
+##### [READ MORE](https://vuejs-templates.github.io/webpack/proxy.html)
 
 <br>
+ 
+ ### SO LETS THINK ABOUT IT
 
 Since the web page was not served from the localhost server on localhost:3000 and via the file explorer the origin is not the same as the server API origin, hence a cross-origin request is being attempted. The browser is stopping this attempt due to CORS Policy.
 
-https://stackoverflow.com/questions/45975135/access-control-origin-header-error-using-axios
+###### [READ MORE](https://stackoverflow.com/questions/45975135/access-control-origin-header-error-using-axios)
+
+<br>
+
+---
+
+# 🍨
+
+## Something is being mismatched, but in my beginners mind I have just a little idea
+
+#### 1.
+
+> its possible that i did a mistake in the code, mostly in the pages that handle the routes and the secret stripe key.
+
+**So I spend a couple of hours looking for errors** (but nothing), then to be sure i downloaded the teachers version just to see if it came from my code. After setting it all up with the credentials from my project, **the error persisted**
+
+<br>
+
+- Now i was 100% sure it didn't come from my code ✅
+
+<br>
+<br>
+
+#### 2.
+
+> It can be that the main reason is the server not having the same url (as it was mentioned in the articles i read), **and if that was the case i feared** that i might not know how to solve the problem, i was already thinking to continue the rest of the project and ask my teacher. but some part of me wanted to solve it alone just because of **curiosity and satisfaction**.
+
+<br>
+
+#### So I changed the port to lets say 4000 inside the backened and i added the url containing the localhost 4000 to the UI app
+
+```javascript
+     try {
+        const res = await axios.post(
+          "http://localhost:8282/api/checkout/payment",
+
+```
+
+##### BUT IT DIDN'T WORK!
+
+<br>
+<br>
+
+# 🌈
+
+## So looking for clues I found this:
+
+##### [Error OPTIONS net::ERR_CONNECTION_REFUSED](https://stackoverflow.com/questions/45115309/error-options-neterr-connection-refused/45247822#45247822)
+
+> **One thing is for sure, this is a backend problem. This happens when the cross origin communication between the backend and frontend is not connected properly.** Considering you have imported cors and set up the middleware, most probably you have made a mistake using the PUT method in terms of the origin URL and request URL.
+
+<br>
+
+##### Things you can do:
+
+1. Make sure both servers are running (the back-end and front end). ✋ (**I didnt know they had to be running simultaneously**) because the teacher didnt say anything about it, but is okay because it wasnt a nodes course.
+
+<br>
+
+2. Look into google development tool and see the network section. Look at the request headers and the general. Make sure the request URL / backend has your backend server URL and the orgin / frontend has your frontend URL. 🏁 (**When i checked if the 2 matched, i knew 100% it came from there**)
+
+<br>
+
+3. Make sure in your http.put() method, the domain you are feeding it matches the api you set up in your server.(**the code was fine, i had set the route stripe with the endpoint: "/payment", and in the index.js i had the imported route like so ("/api/checkout", stripeRoute);**)
+
+<br>
+
+4. Your issue is that your backend is not connected with your front end properly,so don't waste your time trying to find other errors. **Focus on debugging the http.put() method and the cors module and middleware you have imported.**
+
+### NOW THAT I KNEW THE ANSWERS, THE QUESTION WAS: HOW TO DO IT?
+
+- So I spend a couple of hours trying to figure out the right question to match the right answer.
+
+<br>
+<br>
+
+---
+
+### If one of the problems comes every time I add the same port to both applications, its possible that I have to kill one port?
+
+##### [Node.js Port 3000 already in use but it actually isn't?](https://stackoverflow.com/questions/39322089/node-js-port-3000-already-in-use-but-it-actually-isnt)
+
+<br>
+
+- Then to kill them all
+
+```javascript
+npx kill-port 3000 8080 4200 //whatever port you want to kill
+```
+
+<br>
+<br>
+
+### So I started to look for the active ports
+
+##### [How to check if port is in use on Linux or Unix](https://www.cyberciti.biz/faq/unix-linux-check-if-port-is-in-use-command/)
+
+```javascript
+sudo lsof -i -P -n | grep LISTEN
+
+```
+
+##### result
+
+```javascript
+node      15549       home   23u  IPv6 209019      0t0  TCP *:4000 (LISTEN)
+node      15633       home   23u  IPv4 202350      0t0  TCP *:3000 (LISTEN)
+```
+
+<br>
+
+- Here you can really see that they not match
+
+<br>
+<br>
+
+# 🐒
+
+# SOLUTION
+
+#### So now the Question is: how to change the DEFAULT 'port 3000' from the UI REACT app?
+
+> **""** My project is based on create-react-app. npm start or yarn start by default will run the application on port 3000 and there is no option of specifying a port in the package.json. **""**
+
+##### [How to specify a port to run a create-react-app based project?](https://stackoverflow.com/questions/40714583/how-to-specify-a-port-to-run-a-create-react-app-based-project)
+
+#### solution options:
+
+- **Linux** (tested on **Ubuntu** 14.04/16.04) and MacOS (tested by @aswin-s on MacOS Sierra 10.12.4):
+
+```javascript
+"start": "PORT=3006 react-scripts start"
+```
+
+or (may be) more general solution by @IsaacPak
+
+```javascript
+"start": "export PORT=3006 react-scripts start"
+```
+
+**Windows** @JacobEnsor solution
+
+```javascript
+"start": "set PORT=3006 && react-scripts start"
+```
+
+<br>
+<br>
+
+### So I decided to test it and go for this option: 👍
+
+- Add the following inside the package Json of the ui client app
+
+```javascript
+  "start": "export PORT=8282 && react-scripts start",
+```
+
+<br>
+
+### THE TRICK
+
+- **npm start** in the **server side** app, once you get this:
+
+```javascript
+Backend server is running!
+DBConnection Successful
+```
+
+<br>
+
+- You can proceed with the client, **npm start** in the UI **client side**
+
+```javascript
+// I removed my data and left this:
+// its telling you that another app is using this PORT, press enter
+ index.js (pid 9525)
+ react-mern-21-backend
+
+Would you like to run the app on another port instead? › (Y/n)
+
+```
+
+#### Once you get this question:
+
+```javascript
+Would you like to run the app on another port instead? › (Y/n)
+```
+
+#### press enter
+
+<br>
+
+> **If you do the opposite** it will send an error
+
+- After the first testing in the previous apps where nothing worked (as the 'succesful' worked in the one i downloaded from git), it failed again. ✋
+
+<br>
+
+So i had to copy the index.js(server node, from the good one) and paste it inside the failed one, and **it worked**.
+
+<br>
+
+- the problem now was the organization
+
+<br>
+<br>
+
+#### the unsuccessful one
+
+- i think it had to do with the organization, probably some things had to be on top of others, as for what i have read the dotenv can cause issues when it not placed in the right place
+
+```javascript
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const cors = require("cors");
+//
+//
+
+//
+//---------------------
+//      ROUTES
+//---------------------
+//
+//
+//
+const userRoute = require("./routes/user");
+const authRoute = require("./routes/auth");
+const productRoute = require("./routes/product");
+const cartRoute = require("./routes/cart");
+const orderRoute = require("./routes/order");
+const stripeRoute = require("./routes/stripe");
+
+dotenv.config();
+
+mongoose
+  .connect(process.env.MONGO_RAINBOW_URL)
+  .then(() => console.log("DBConnection Successful"))
+  .catch((err) => console.log("error"));
+//
+//
+//---------------------
+//      ROUTES
+//---------------------
+//
+//
+//
+
+app.use(cors({ origin: true }));
+app.use(express.json());
+//
+//
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
+app.use("/api/carts", cartRoute);
+app.use("/api/orders", orderRoute);
+app.use("/api/checkout", stripeRoute);
+//
+//---------------------
+//      SERVER
+//---------------------
+//
+app.listen(9000, () => {
+  console.log("Backend server is running!");
+});
+```
+
+<br>
+<br>
+
+### Testing
+
+- I wanted to know what exactly can cause issues depending of the place i add them.
+
+**dotenv** ✋
+
+<br>
+
+```javascript
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+const cors = require("cors");
+
+mongoose
+  .connect(process.env.MONGO_RAINBOW_URL)
+  .then(() => console.log("DB Connection Successfull!"))
+  .catch((err) => {
+    console.log(err);
+  });
+
+app.use(express.json());
+app.use(cors());
+
+// ROUTES
+//
+const userRoute = require("./routes/user");
+const authRoute = require("./routes/auth");
+const productRoute = require("./routes/product");
+const cartRoute = require("./routes/cart");
+const orderRoute = require("./routes/order");
+const stripeRoute = require("./routes/stripe");
+//
+//
+//
+dotenv.config();
+// LISTEN
+```
+
+- If i place the **dotenv.config();** under the routes and under mongoose(**like in the example above**),i get this error:
+
+```javascript
+MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+```
+
+<br>
+
+<br>
+
+<br>
+
+---
+
+<br>
+
+<br>
+<br>
+
+## the good one
+
+```javascript
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+const cors = require("cors");
+
+dotenv.config();
+
+mongoose
+  .connect(process.env.MONGO_RAINBOW_URL)
+  .then(() => console.log("DB Connection Successfull!"))
+  .catch((err) => {
+    console.log(err);
+  });
+
+app.use(express.json());
+app.use(cors());
+
+// ROUTES
+//
+const userRoute = require("./routes/user");
+const authRoute = require("./routes/auth");
+const productRoute = require("./routes/product");
+const cartRoute = require("./routes/cart");
+const orderRoute = require("./routes/order");
+const stripeRoute = require("./routes/stripe");
+
+// LISTEN
+//
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
+app.use("/api/carts", cartRoute);
+app.use("/api/orders", orderRoute);
+app.use("/api/checkout", stripeRoute);
+
+// app.listen(process.env.PORT || 5000, () => {
+//   console.log("Backend server is running!");
+// });
+app.listen(9000, () => {
+  console.log("Backend server is running! port 9000");
+});
+```
+
+<br>
+<br>
+
+---
+
+<br>
+
+# SameSite cookie issue
+
+<br>
+
+#### This issue wont stop our progress but it will be nice to solve it
+
+<br>
+
+```javascript
+Indicate whether to send a cookie in a cross-site request by specifying its SameSite attribute
+Because a cookie’s SameSite attribute was not set or is invalid, it defaults to SameSite=Lax, which prevents the cookie from being sent in a cross-site request. This behavior protects user data from accidentally leaking to third parties and cross-site request forgery.
+Resolve this issue by updating the attributes of the cookie:
+Specify SameSite=None and Secure if the cookie should be sent in cross-site requests. This enables third-party use.
+Specify SameSite=Strict or SameSite=Lax if the cookie should not be sent in cross-site requests.
+1 cookie
+Name	Domain & Path
+ab_disable_remember_me	checkout.stripe.com/api
+
+```
+
+<br>
+<br>
+<br>
+
+### A little reading
+
+##### [How to resolve Lighthouse's SameSite cookie issue](https://stackoverflow.com/questions/67686773/how-to-resolve-lighthouses-samesite-cookie-issue)
+
+> The SameSite cookie attribute essentially tells the browser whether to send the cookie depending on the context of the request. There are three values the SameSite attribute can take: Strict, Lax, and None.
+> <br>
+
+**Strict** means that the cookie will be sent on a request only if the user is on the same site as the request.
+
+<br>
+
+**Lax** means the cookie will be also be sent on top-level navigations; i.e. if the user is navigating to the site from another site.
+
+<br>
+
+**None** will send the cookie on cross-site requests too. SameSite=None must also be paired with the Secure attribute, which prevents it from being sent over http:.
+
+<br>
+<br>
+
+### [Why am I getting "Indicate whether to send a cookie in a cross-site request by specifying its SameSite attribute"?](https://stackoverflow.com/questions/63273838/why-am-i-getting-indicate-whether-to-send-a-cookie-in-a-cross-site-request-by-s)
+
+<br>
+
+- you are getting this because **you are using a resource from another site and that server is attempting to set a "cookie" but**, it does not have the SameSite attribute set, which is being reported in newer versions of browsers.
+
+<br>
+
+- this (may) also be shown if you are trying to access the server page from local computer (xampp), which generally doesn't has SSL installed;
+
+##### set the header line in your server page (if in PHP) as below:
+
+```javascript
+header("Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure");
+```
+
+##### (remember: this must be solved from the server side.)
