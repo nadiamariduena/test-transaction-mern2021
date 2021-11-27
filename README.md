@@ -1012,16 +1012,18 @@ Would you like to run the app on another port instead? › (Y/n)
 
 <br>
 
-So i had to copy the index.js(server node, from the good one) and paste it inside the failed one, and **it worked**.
+So i had to copy the index.js(server node, from the good one) and paste it inside the failed one, and **it worked**. 🌈
+
+[<img src="./src/img/succesful.gif"/>]()
 
 <br>
 
-- the problem now was the organization
+### the problem now was the organization inside the index.js (server side)
 
 <br>
 <br>
 
-#### the unsuccessful one
+### the unsuccessful
 
 - i think it had to do with the organization, probably some things had to be on top of others, as for what i have read the dotenv can cause issues when it not placed in the right place
 
@@ -1083,10 +1085,58 @@ app.listen(9000, () => {
 });
 ```
 
+## the successful
+
+```javascript
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+const cors = require("cors");
+
+dotenv.config();
+
+mongoose
+  .connect(process.env.MONGO_RAINBOW_URL)
+  .then(() => console.log("DB Connection Successfull!"))
+  .catch((err) => {
+    console.log(err);
+  });
+
+app.use(express.json());
+app.use(cors());
+
+// ROUTES
+//
+const userRoute = require("./routes/user");
+const authRoute = require("./routes/auth");
+const productRoute = require("./routes/product");
+const cartRoute = require("./routes/cart");
+const orderRoute = require("./routes/order");
+const stripeRoute = require("./routes/stripe");
+
+// LISTEN
+//
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
+app.use("/api/carts", cartRoute);
+app.use("/api/orders", orderRoute);
+app.use("/api/checkout", stripeRoute);
+
+// app.listen(process.env.PORT || 5000, () => {
+//   console.log("Backend server is running!");
+// });
+app.listen(9000, () => {
+  console.log("Backend server is running! port 9000");
+});
+```
+
 <br>
 <br>
 
-### Testing
+# Testing
 
 - I wanted to know what exactly can cause issues depending of the place i add them.
 
@@ -1143,63 +1193,7 @@ MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefin
 
 <br>
 
-<br>
-<br>
-
-## the good one
-
-```javascript
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-
-const cors = require("cors");
-
-dotenv.config();
-
-mongoose
-  .connect(process.env.MONGO_RAINBOW_URL)
-  .then(() => console.log("DB Connection Successfull!"))
-  .catch((err) => {
-    console.log(err);
-  });
-
-app.use(express.json());
-app.use(cors());
-
-// ROUTES
-//
-const userRoute = require("./routes/user");
-const authRoute = require("./routes/auth");
-const productRoute = require("./routes/product");
-const cartRoute = require("./routes/cart");
-const orderRoute = require("./routes/order");
-const stripeRoute = require("./routes/stripe");
-
-// LISTEN
-//
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/products", productRoute);
-app.use("/api/carts", cartRoute);
-app.use("/api/orders", orderRoute);
-app.use("/api/checkout", stripeRoute);
-
-// app.listen(process.env.PORT || 5000, () => {
-//   console.log("Backend server is running!");
-// });
-app.listen(9000, () => {
-  console.log("Backend server is running! port 9000");
-});
-```
-
-<br>
-<br>
-
----
-
-<br>
+# 🍪
 
 # SameSite cookie issue
 
