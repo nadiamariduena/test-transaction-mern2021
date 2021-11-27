@@ -1,21 +1,18 @@
-## SUCCESSFULLY LINKING SERVER AND CLIENT
-
-<br>
-<br>
-
-## STRIPE TEST
-
-> I had some issues related to the server(read at the end of this file) but it was solved.
-
-<br>
 <br>
 
 # 🍍
 
+## STRIPE TEST
+
 ### This app will serve to test the transactions with stripe for the work in progress backend M E R N 2021, this is not the end application.
+
+- (just the app that serves to test if the backend is working)
 
 <br>
 <br>
+
+---
+
 <br>
 
 ### Install the following
