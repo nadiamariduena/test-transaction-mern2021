@@ -9,6 +9,10 @@
 - (just the app that serves to test if the backend is working)
 
 <br>
+
+> The pk test key i used from STRIPE is already **obsolete**, i changed it after i finished this app
+
+<br>
 <br>
 
 ---
