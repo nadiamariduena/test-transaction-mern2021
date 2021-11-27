@@ -10,7 +10,7 @@
 
 <br>
 
-> The pk test key i used from STRIPE is already **obsolete**, i changed it after i finished this app
+> 🔴 The pk test key I used from STRIPE is already **obsolete**, I changed it after I finished this app (to avoid **malicious attacks**)
 
 <br>
 <br>
