@@ -53,43 +53,59 @@ const Pay = () => {
       }}
     >
       {/* 
-      
-              STRIPE BUTTON 
-      
-       amount={1000} the 2 last ceros are cents
+If there is a STRIPE token show "Processing please wait", but if 
+there is not token, show the button
 
-         token={this.onToken}
-         this above is linked to the function we 
-         are going to create
-      */}
 
-      <StripeCheckout
-        name="NOVE shop"
-        image="https://avatars.githubusercontent.com/u/1486366?v=4"
-        shippingAddress
-        billingAddress
-        description="Your total is 20 euros"
-        //allowRememberMe={false}
-        data-allow-remember-me="false"
-        amount={2000}
-        token={onToken}
-        stripeKey={KEY}
-      >
-        <button
-          style={{
-            border: "none",
-            width: "120",
-            borderRadius: "5",
-            padding: "20px",
-            backgroundColor: "black",
-            color: "white",
-            fontWeight: "500",
-            cursor: "pointer",
-          }}
+REMEMBER, this {stripeToken is being returned after client payment, 
+  and after this token we are sending our backend server request:
+
+        const res = await axios.post(
+          "http://localhost:9000/api/checkout/payment",
+
+          {
+            tokenId: stripeToken.id,
+            amount: 2000,
+          }
+        );
+
+        AND AFTER the server request, it will return us the data, like so:
+
+         console.log(res.data);
+
+*/}
+
+      {stripeToken ? (
+        <span>Processing. Please wait...</span>
+      ) : (
+        <StripeCheckout
+          name="NOVE shop"
+          image="https://avatars.githubusercontent.com/u/1486366?v=4"
+          shippingAddress
+          billingAddress
+          description="Your total is 20 euros"
+          //allowRememberMe={false}
+          data-allow-remember-me="false"
+          amount={2000}
+          token={onToken}
+          stripeKey={KEY}
         >
-          PAY NOW
-        </button>
-      </StripeCheckout>
+          <button
+            style={{
+              border: "none",
+              width: "120",
+              borderRadius: "5",
+              padding: "20px",
+              backgroundColor: "black",
+              color: "white",
+              fontWeight: "500",
+              cursor: "pointer",
+            }}
+          >
+            PAY NOW
+          </button>
+        </StripeCheckout>
+      )}
     </div>
   );
 };
