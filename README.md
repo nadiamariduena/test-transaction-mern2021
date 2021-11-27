@@ -1262,7 +1262,11 @@ header("Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure");
 
 <br><br>
 
-# Lets continue with the app
+### Lets FINISH the app 🍨
+
+<br>
+
+# THE PROCESSING
 
 - Next step will be to add a basic processing step
 
@@ -1352,3 +1356,302 @@ REMEMBER, this {stripeToken is being returned after client payment,
 ```
 
 [<img src="./src/img/processing.gif"/>]()
+
+<br><br>
+
+---
+
+<br><br>
+
+# THE HISTORY hook
+
+<br>
+
+- With the History hook **we will redirect the user** to the SUCCESS page
+
+```javascript
+const history = useHistory();
+```
+
+<br>
+
+- we will use this hook after the **successful operation**
+
+```javascript
+//this below is the successful operation
+console.log(res.data);
+//
+//e are adding the history under the success transaction
+// so that i will redirect the user only after the transaction
+// has been accepted
+history.push("/success");
+```
+
+### Dont forget to add it to the useEffect as its another dependency(read more below)
+
+```javascript
+    //
+  }, [stripeToken, history]);
+
+  //
+```
+
+<br>
+
+---
+
+## When use the useLocation hook
+
+> The useLocation hook is useful in many cases when you want to trigger a function based on a change of the URL. **In general, it is used in conjunction with the useEffect** hook provided by React.
+
+##### [React Router useLocation hook – Tutorial and Examples ](https://www.kindacode.com/article/react-router-uselocation-hook-tutorial-and-examples/)
+
+<br>
+
+---
+
+<br>
+
+# 🔴 ERROR
+
+<br>
+
+### When Adding the History hook to the app I encountered an error
+
+- When restarting the server app and then the ui side app, it didnt work and it send me an error, **somehow i suspected the HISTORY** as i didnt get this error when testing the **processing**
+
+<br>
+
+- So i deleted the code related to the history and re started the server, and it worked. ✋
+
+<br>
+
+- While the server was on, i added the code related to the history inside the **ui side app** then re started the server in the **ui side** or I re started the server before i did add the code.
+
+<br>
+
+- In any of the 2 options **it worked** you just have to play around.
+
+[<img src="./src/img/history-success.gif"/>]()
+
+<br>
+
+##### Here below you will find the before and after the history part
+
+<br>
+
+---
+
+<br>
+
+- BEFORE " **the history** "
+
+```javascript
+// BEFORE
+import { useState, useEffect } from "react";
+
+import StripeCheckout from "react-stripe-checkout";
+
+const axios = require("axios");
+
+const KEY =
+  "pk_test_51JrMq0CdM1Odk0RJfHsJPW4taGQUROuQ6g9u3fCch9QU8eHNfuSrh0mGh89PF5g3IO3SPaJBsV2qzHo5Yo6An1qo00zicCUq2p";
+
+const Pay = () => {
+  //
+  //
+  const [stripeToken, setStripeToken] = useState(null);
+  // set to (null) because we dont have a token in the beginning
+  //
+  //
+  const onToken = (token) => {
+    // console.log(token);
+
+    setStripeToken(token);
+  };
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await axios.post(
+          "http://localhost:9000/api/checkout/payment",
+
+          {
+            tokenId: stripeToken.id,
+            amount: 2000,
+          }
+        );
+
+        console.log(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    stripeToken && makeRequest();
+    //
+  }, [stripeToken]);
+
+  //
+  return (
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {/* 
+If there is a STRIPE token show "Processing please wait", but if there is 
+not token, show the button
+
+
+*/}
+
+      {stripeToken ? (
+        <span>Processing. Please wait...</span>
+      ) : (
+        <StripeCheckout
+          name="NOVE shop"
+          image="https://avatars.githubusercontent.com/u/1486366?v=4"
+          shippingAddress
+          billingAddress
+          description="Your total is 20 euros"
+          //allowRememberMe={false}
+          data-allow-remember-me="false"
+          amount={2000}
+          token={onToken}
+          stripeKey={KEY}
+        >
+          <button
+            style={{
+              border: "none",
+              width: "120",
+              borderRadius: "5",
+              padding: "20px",
+              backgroundColor: "black",
+              color: "white",
+              fontWeight: "500",
+              cursor: "pointer",
+            }}
+          >
+            PAY NOW
+          </button>
+        </StripeCheckout>
+      )}
+    </div>
+  );
+};
+
+export default Pay;
+```
+
+<br>
+<br>
+
+#### THE AFTER and the final version
+
+```javascript
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router";
+
+import StripeCheckout from "react-stripe-checkout";
+
+const axios = require("axios");
+
+const KEY =
+  "pk_test_51JrMq0CdM1Odk0RJfHsJPW4taGQUROuQ6g9u3fCch9QU8eHNfuSrh0mGh89PF5g3IO3SPaJBsV2qzHo5Yo6An1qo00zicCUq2p";
+
+const Pay = () => {
+  //
+  //
+  const [stripeToken, setStripeToken] = useState(null);
+  // set to (null) because we dont have a token in the beginning
+  //
+  const history = useHistory();
+  //
+  const onToken = (token) => {
+    // console.log(token);
+
+    setStripeToken(token);
+  };
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await axios.post(
+          "http://localhost:9000/api/checkout/payment",
+
+          {
+            tokenId: stripeToken.id,
+            amount: 2000,
+          }
+        );
+        //
+        //
+        //this below is the successful operation
+        console.log(res.data);
+        //
+        //e are adding the history under the success transaction
+        // so that i will redirect the user only after the transaction
+        // has been accepted
+        history.push("/success");
+        //
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    stripeToken && makeRequest();
+    //
+    //
+  }, [stripeToken, history]);
+
+  //
+  return (
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {stripeToken ? (
+        <span>Processing. Please wait...</span>
+      ) : (
+        <StripeCheckout
+          name="NOVE shop"
+          image="https://avatars.githubusercontent.com/u/1486366?v=4"
+          shippingAddress
+          billingAddress
+          description="Your total is 20 euros"
+          //allowRememberMe={false}
+          data-allow-remember-me="false"
+          amount={2000}
+          token={onToken}
+          stripeKey={KEY}
+        >
+          <button
+            style={{
+              border: "none",
+              width: "120",
+              borderRadius: "5",
+              padding: "20px",
+              backgroundColor: "black",
+              color: "white",
+              fontWeight: "500",
+              cursor: "pointer",
+            }}
+          >
+            PAY NOW
+          </button>
+        </StripeCheckout>
+      )}
+    </div>
+  );
+};
+
+export default Pay;
+```

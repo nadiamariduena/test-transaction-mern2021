@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 
 import StripeCheckout from "react-stripe-checkout";
 
@@ -13,6 +14,7 @@ const Pay = () => {
   const [stripeToken, setStripeToken] = useState(null);
   // set to (null) because we dont have a token in the beginning
   //
+  const history = useHistory();
   //
   const onToken = (token) => {
     // console.log(token);
@@ -31,8 +33,16 @@ const Pay = () => {
             amount: 2000,
           }
         );
-
+        //
+        //
+        //this below is the successful operation
         console.log(res.data);
+        //
+        //e are adding the history under the success transaction
+        // so that i will redirect the user only after the transaction
+        // has been accepted
+        history.push("/success");
+        //
       } catch (err) {
         console.log(err);
       }
@@ -40,7 +50,8 @@ const Pay = () => {
 
     stripeToken && makeRequest();
     //
-  }, [stripeToken]);
+    //
+  }, [stripeToken, history]);
 
   //
   return (
