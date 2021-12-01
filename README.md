@@ -33,6 +33,10 @@ REMEMBER, this {stripeToken is being returned after client payment,
 
 <br>
 
+[<img src="./src/img/history-success.gif"/>]()
+
+<br>
+
 ---
 
 ### The pk/public key from STRIPE used in this project.
