@@ -2,11 +2,17 @@
 
 # 🍍
 
-## STRIPE TEST
+# STRIPE TEST
 
-### This app will serve to test the transactions with stripe for the work in progress backend M E R N 2021, this is not the end application.
+### This app will serve to test the transactions with stripe for <u>[Backend ](https://github.com/nadiamariduena/react-mern-21-backend) </u>.
 
-- (just the app that serves to test if the backend is working)
+<br>
+
+<br>
+
+---
+
+### The pk/public key from STRIPE used in this project.
 
 <br>
 
@@ -14,6 +20,10 @@
 
 <br>
 <br>
+
+##### [Go to final error](#final)
+
+##### [Go to final success](#success)
 
 ---
 
@@ -1556,6 +1566,10 @@ export default Pay;
 
 #### THE AFTER and the final version
 
+🔴
+
+- After this project is over I will **roll over the key** as it s **sensitive data**
+
 ```javascript
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
@@ -1659,3 +1673,64 @@ const Pay = () => {
 
 export default Pay;
 ```
+
+<br>
+
+# 🍌
+
+#final
+
+#### If you <u> npm start</u> only the test-transaction without being connected to the server
+
+- You will have a **Processing. Please wait**
+- And an error in the console
+
+```javascript
+Failed to load resource: the server responded with a status of 404 (Not Found)
+Pay.jsx:47 Error: Request failed with status code 404
+    at createError (vendors~main.chunk.js:1126)
+    at settle (vendors~main.chunk.js:1397)
+    at XMLHttpRequest.onloadend
+```
+
+<br>
+
+---
+
+<br>
+
+#success
+
+#### For this to work and get the final message
+
+> - **SUCCESS, Your order is being prepared. Thanks for choosing NOVE shop**
+
+<br>
+
+#### You have to:
+
+- First: Turn on the backend
+- then turn on the test-transaction application
+
+<br>
+
+- You will get this:
+
+> And its because the backend is already on, so just press **ENTER**
+
+```javascript
+ Something is already running on port 9000. Probably:
+ react-mern-21-backend
+
+Would you like to run the app on another port instead? › (Y/n)
+```
+
+**y** or **enter**
+
+<br>
+
+- This **//localhost:9001** has to match the one you have in the backend project
+
+- Once this done, you can test it inside the browser
+
+> http://localhost:9001/Pay
