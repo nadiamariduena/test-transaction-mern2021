@@ -21,11 +21,11 @@
 <br>
 <br>
 
-##### [Go to final error](#final)
+#### [Go to final error](#final)
 
-##### [Go to final success](#success)
+#### [Go to final success](#success)
 
-#### [STRIPE KEY](#key)
+#### [STRIPE KEY](#key) 👍
 
 ---
 
