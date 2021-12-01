@@ -21,7 +21,7 @@
 <br>
 <br>
 
-##### [Go to final error](README.md#final)
+##### [Go to final error](#final)
 
 ##### [Go to final success](#success)
 
@@ -1680,7 +1680,7 @@ export default Pay;
 
 # 🍌
 
-#final
+# final
 
 #### If you <u> npm start</u> only the test-transaction without being connected to the server
 
@@ -1701,7 +1701,7 @@ Pay.jsx:47 Error: Request failed with status code 404
 
 <br>
 
-#success
+# success
 
 #### For this to work and get the final message
 
