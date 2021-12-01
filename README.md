@@ -1731,11 +1731,17 @@ Would you like to run the app on another port instead? › (Y/n)
 
 <br>
 
-- This **//localhost:9001** has to match the one you have in the backend project
+- This **//localhost:9001** has to match the one you have in the **[backend project](https://github.com/nadiamariduena/react-mern-21-backend/blob/master/index.js)**
+
+<br>
+
+- If you have problems with your server, i made a branch **[CORS AND SERVER ISSUE | err 6.](https://github.com/nadiamariduena/react-mern-21-backend/blob/master/a_ERRORS.md)** about the eventual issues you can encounter.
+
+<br>
 
 - Once this done, you can test it inside the browser
 
-> http://localhost:9001/Pay
+> http://localhost:9001/pay
 
 <br>
 <br>
