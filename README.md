@@ -1748,7 +1748,7 @@ Would you like to run the app on another port instead? › (Y/n)
 
 ## 🔑
 
-#key
+# key
 
 ### New pk key from STRIPE
 
