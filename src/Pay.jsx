@@ -6,6 +6,7 @@ import StripeCheckout from "react-stripe-checkout";
 const axios = require("axios");
 
 const KEY =
+  // already obsolete, i killed it before making the repo PUBLIC
   "pk_test_51JrMq0CdM1Odk0RJfHsJPW4taGQUROuQ6g9u3fCch9QU8eHNfuSrh0mGh89PF5g3IO3SPaJBsV2qzHo5Yo6An1qo00zicCUq2p";
 
 const Pay = () => {
