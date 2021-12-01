@@ -27,9 +27,7 @@ REMEMBER, this {stripeToken is being returned after client payment,
 
 <br>
 
-# 🍍
-
-# STRIPE TEST
+# stripe-test-app
 
 ### This app will serve to test the transactions with stripe for the <u>[Backend ](https://github.com/nadiamariduena/react-mern-21-backend) </u> app that I created few days ago.
 
@@ -1789,3 +1787,15 @@ Would you like to run the app on another port instead? › (Y/n)
 #### 🔴 In this project you will find _my old_ pk , so to give you an example of where you have to add it.
 
 - this key is obsolete as i changed it after finishing this app. ✋
+
+<br>
+<br>
+<br>
+<br>
+
+---
+
+<br>
+<br>
+
+##### [ BACK TO TOP ⤴️](#stripe-test-app)
