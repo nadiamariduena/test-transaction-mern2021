@@ -25,6 +25,8 @@
 
 ##### [Go to final success](#success)
 
+#### [STRIPE KEY](#key)
+
 ---
 
 <br>
@@ -1734,3 +1736,21 @@ Would you like to run the app on another port instead? › (Y/n)
 - Once this done, you can test it inside the browser
 
 > http://localhost:9001/Pay
+
+<br>
+<br>
+
+## 🔑
+
+#key
+
+### New pk key from STRIPE
+
+> to make this app work you have to add your own stripe keys
+
+- the sk inside the backend
+- the pk inisde the test-transaction
+
+#### 🔴 In this project you will find _my old_ pk , so to give you an example of where you have to add it.
+
+- this key is obsolete as i changed it after finishing this app. ✋
