@@ -1,3 +1,30 @@
+<!--
+
+
+If there is a STRIPE token show "Processing please wait", but if
+there is not token, show the button
+
+
+REMEMBER, this {stripeToken is being returned after client payment,
+  and after this token we are sending our backend server request:
+
+        const res = await axios.post(
+          "http://localhost:9000/api/checkout/payment",
+
+          {
+            tokenId: stripeToken.id,
+            amount: 2000,
+          }
+        );
+
+        AND AFTER the server request, it will return us the data, like so:
+
+         console.log(res.data);
+
+
+
+ -->
+
 <br>
 
 # 🍍
@@ -24,6 +51,8 @@
 #### [Go to final success](#success)
 
 #### [STRIPE KEY](#key) 👍
+
+#### [AXIOS](#axios) 👍
 
 ---
 
@@ -565,6 +594,8 @@ const onToken = (token) => {
 ### For the next step we will need to install AXIOS
 
 <br>
+
+# axios
 
 ##### Install AXIOS
 
