@@ -4,9 +4,7 @@
 
 # STRIPE TEST
 
-### This app will serve to test the transactions with stripe for <u>[Backend ](https://github.com/nadiamariduena/react-mern-21-backend) </u>.
-
-<br>
+### This app will serve to test the transactions with stripe for the <u>[Backend ](https://github.com/nadiamariduena/react-mern-21-backend) </u> app that I created few days ago.
 
 <br>
 
