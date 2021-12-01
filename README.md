@@ -21,7 +21,7 @@
 <br>
 <br>
 
-##### [Go to final error](#final)
+##### [Go to final error](README.md#final)
 
 ##### [Go to final success](#success)
 
