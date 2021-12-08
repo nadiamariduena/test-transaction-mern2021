@@ -1777,6 +1777,91 @@ Would you like to run the app on another port instead? › (Y/n)
 <br>
 <br>
 
+---
+
+# 🌈
+
+### ANOTHER SOLUTION TO THE LOCALHOST ISSUE
+
+> This solution is related to another project I am working in the moment: (it will be available soon **[Camie SHOP](https://github.com/nadiamariduena/frontend-travrsy-mern))**
+
+<br>
+
+#### 🔴
+
+#### At this point we will have an error
+
+```javascript
+:3000/api/products:1 Failed to load resource: the server responded with a status of 404 (Not Found)
+createError.js:16 Uncaught (in promise) Error: Request failed with status code 404
+    at createError (:3000/static/js/vendors~main.chunk.js:8695)
+    at settle (:3000/static/js/vendors~main.chunk.js:8966)
+    at XMLHttpRequest.onloadend (:3000/static/js/vendors~main.chunk.js:8022)
+```
+
+<br>
+
+##### As you can see, its indicating there is a problem connecting to the server
+
+```javascript
+:3000/api/products:1 Failed to load resource: the server
+```
+
+#### and the reason for that is because we didnt define the server here below:
+
+```javascript
+axios.get("/api/products");
+```
+
+<br>
+
+## PROXY
+
+##### Since we didn't define a localhost 5000 (remember we have it set at 5000 in our backend)
+
+<br>
+
+- TO SOLVE this issue, we can add a **proxy**, this proxy will make that instead of looking at **localhost 3000** it will look at **localhost 5000**
+
+<br>
+
+[<img src="./src/img/axios-async.gif" />]()
+
+<br>
+
+### So lets set it up! 🍨
+
+- Go to **package.json** (of the frontend) and add the following:
+
+<br>
+
+```javascript
+// frontend
+{
+  "name": "frontend-traversy-mern",
+  "version": "0.1.0",
+  "proxy": "http://127.0.0.1:5000", //here
+  "private": true,
+  "dependencies": { ...etc
+```
+
+<br>
+
+#### After this , type <u>npm start</u> and you will see that even if you are running at local :3000 there are no errors, so YES IT WORKS!! 🎊
+
+<br>
+
+##### EXPLANATION [Proxying API Requests in Development](https://create-react-app.dev/docs/proxying-api-requests-in-development/) ✋
+
+<br>
+<br>
+<br>
+
+---
+
+<br>
+<br>
+
 ## 🔑
 
 # key
